@@ -1,4 +1,4 @@
-from typing import Any, Iterable
+from typing import Any
 
 class Node: # node object for linked list implementation
     def __init__(self, val: Any):
@@ -79,11 +79,16 @@ class LinkedList:
 
         largest = self.head
         p = self.head
+        prev = None # prevents crashes if head is already largest
         while p.next:
             if p.next.val > largest.val:
                 prev = p # keep track of node before largest, so we can reconnect
                 largest = p.next
             p = p.next
+
+        if not prev: # exit early if head is largest
+            return
+        
         prev.next = prev.next.next # unlink largest from LL
         largest.next = self.head # move largest to front
         self.head = largest # update head
@@ -96,8 +101,8 @@ def test(nums):
     ll.display()
     ll.move_even_items_to_back_ll()
     ll.display()
-    # ll.move_max_to_front()
-    # ll.display()
+    ll.move_max_to_front()
+    ll.display()
 
 
 nums_1 = [2, 3, 4, 7, 15, 18] # initialise test list
