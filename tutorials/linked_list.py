@@ -1,3 +1,4 @@
+# tutorial 4
 from typing import Any
 
 class Node: # node object for linked list implementation
@@ -52,6 +53,9 @@ class LinkedList:
 
 
     def move_even_items_to_back_ll(self):
+        """
+        Moves all even nodes to the back of LL
+        """
         count = self.length
         while count > 0 and self.head.val % 2 == 0: # this block ensures head is not even
             curr = self.head # hold head temporarily in curr
@@ -73,7 +77,11 @@ class LinkedList:
                 p = p.next
             count -= 1
 
+
     def move_max_to_front(self):
+        """
+        Traverse down LL, finding max, and moving it to the front
+        """
         if not self.head:
             return
 
@@ -93,15 +101,35 @@ class LinkedList:
         largest.next = self.head # move largest to front
         self.head = largest # update head
 
+
+    def remove_duplicated_sorted_ll(self):
+        """
+        Removes duplicates from a sorted linked list
+        """
+        if not self.head:
+            self.tail = None
+            return
+        
+        p = self.head
+        while p and p.next: # if p.next is None, then we are done checking
+            if p.next.val == p.val: # if same, then skip
+                p.next = p.next.next
+                self.length -= 1
+            else:
+                p = p.next # traverse down LL
+        self.tail = p
+
 def test(nums):
     ll = LinkedList()
     for item in nums:
         ll.append(Node(item)) # add to LL
 
-    ll.display()
-    ll.move_even_items_to_back_ll()
-    ll.display()
-    ll.move_max_to_front()
+    # ll.display()
+    # ll.move_even_items_to_back_ll()
+    # ll.display()
+    # ll.move_max_to_front()
+    # ll.display()
+    ll.remove_duplicated_sorted_ll()
     ll.display()
 
 
@@ -109,5 +137,7 @@ nums_1 = [2, 3, 4, 7, 15, 18] # initialise test list
 test(nums_1)
 nums_2 = [2, 4, 6, 8, 10] # initialise test list
 test(nums_2)
+nums_3 = [1, 2, 2, 4, 4, 5, 5]
+test(nums_3)
 nums_4 = [1, 4, 2]
 test(nums_4)
