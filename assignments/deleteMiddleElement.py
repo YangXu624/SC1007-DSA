@@ -102,7 +102,16 @@ class Stack:
         self.ll.printList()
 
 def deleteMiddleElement(s):
-# write your code here #
+    n = s.getSize()
+    temp_stack = Stack()
+    for i in range(n // 2):
+        temp_stack.push(s.pop()) # store temporarily
+
+    s.pop() # remove element
+
+    for i in range(n // 2):
+        s.push(temp_stack.pop()) # give back
+    return s
 
 if __name__ == "__main__":
     s = Stack()
