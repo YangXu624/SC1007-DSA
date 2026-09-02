@@ -123,7 +123,21 @@ class Queue:
         self.ll.printList()
 
 def interleaveQueue(q):
-# Write your code here #
+    if not q:
+        return q
+
+    s = Stack()
+    n = q.getSize()
+
+    for i in range(n // 2): # move front half to back first
+        q.enqueue(q.dequeue())
+    for i in range(n // 2): # load to stack
+        s.push(q.dequeue())
+
+    for i in range(n // 2): # interleave
+        q.enqueue(q.dequeue())
+        q.enqueue(s.pop())
+    return q
 
 if __name__ == "__main__":
     q = Queue()
