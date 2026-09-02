@@ -73,7 +73,16 @@ class DoublyLinkedList:
         return True
 
 def reverseDoublyList(head):
-# Write your code here #
+    if not head:
+        return head
+    
+    curr = head
+    while curr:
+        curr.prev, curr.next = curr.next, curr.prev
+        new_head = curr # store curr as new head. ensures new_head is not last node before none
+        curr = curr.prev # go next
+    head = new_head
+    return head
 
 if __name__ == "__main__":
     doubly_linked_list = DoublyLinkedList()
