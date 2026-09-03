@@ -35,7 +35,39 @@ class Stack:
         return self.top.data
 
 def in2preS(expr):
-# Write your code here #
+    tokens = expr[::-1]
+    for i in range(len(tokens)):
+        if tokens[i] == "(":
+            tokens[i] = ")"
+        elif tokens[i] == ")":
+            tokens[i] = "("
+
+    s = Stack()
+    expression = Stack()
+    # shunting-yard algorithm
+    for token in tokens:
+        if token == "(":
+            s.push(token)
+        elif token == ")":
+            while not s.isEmpty() and s.peek() != "(":
+                expression.push(s.peek())
+                s.pop()
+            if not s.isEmpty():
+                s.pop()  # discard '('
+        elif token in PRECEDENCE: # catches operators
+            while (not s.isEmpty() and s.peek() != "(" and (PRECEDENCE.get(s.peek(), 0) > PRECEDENCE[token] or (PRECEDENCE.get(s.peek(), 0) == PRECEDENCE[token] and token == '**'))):
+                expression.push(s.peek()) # pop all with higher precedence
+                s.pop()
+            s.push(token)
+        else:
+            # add numbers directly to expression
+            expression.push(token)
+
+    while not s.isEmpty():
+        expression.push(s.peek())
+        s.pop()
+
+    return expression
 
 if __name__ == "__main__":
     infix = input("Enter infix expression: ")
@@ -48,3 +80,9 @@ if __name__ == "__main__":
         prefix.pop()
     
     print(f"Prefix expression: {result}")
+
+"""
+test cases
+3 + 4 * 5
+( 1 + 5 * 2 ** 2 + 2 ) + 7 ** 2 - 5 / 8 + 3 * 2 - ( 3 + 5 ** 2 )
+"""
