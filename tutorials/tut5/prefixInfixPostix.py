@@ -7,6 +7,12 @@ PRECEDENCE = {
 }
 
 def inToPost(tokens):
+    """
+    push operands directly to new expression stack, and operators onto temporary stack
+    when encountering an operator of lower precedence, pop all operators of higher precedence
+    when encountering closed bracket, pop until its buddy is found
+    finally empty the stack
+    """
     stack = []
     new_expression = []
     for token in tokens:
@@ -31,6 +37,11 @@ def inToPost(tokens):
 
 
 def preToIn(tokens):
+    """
+    read right to left since its in prefix, pushing operands to stack
+    encountering operator, pop 2 operands to operate on
+    push (in brackets) as new operand to operate on
+    """
     stack = []
     for token in tokens[::-1]: # go right to left
         if token not in PRECEDENCE: # if token is operand
@@ -43,6 +54,11 @@ def preToIn(tokens):
 
 
 def postToPre(tokens):
+    """
+    read left to right, pushing all operands to a stack
+    encountering operator, pop 2 operands for it to operate on
+    finally push this onto the stack as an operand itself
+    """
     stack = []
     for token in tokens:
         if token not in PRECEDENCE:
