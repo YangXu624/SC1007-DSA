@@ -62,7 +62,18 @@ def removeAll(node_ref):
         node_ref[0] = None
 
 def preOrderIterative(root):
-# Write your code here #
+    if not root:
+        return
+
+    s = Stack()
+    push(s, root)
+
+    while not isEmpty(s):
+        curr = pop(s)
+        print(curr.item, end=" ")
+        if curr.right: push(s, curr.right)
+        if curr.left: push(s, curr.left)
+    return
 
 def main():
     root = [None]  # Using list to simulate pointer reference
