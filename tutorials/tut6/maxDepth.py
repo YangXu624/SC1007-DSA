@@ -85,7 +85,9 @@ def removeAll(node):
         node.right = None
 
 def maxDepth(node):
-# Write your code here #
+    if not node:
+        return 0
+    return max(maxDepth(node.left), maxDepth(node.right)) + 1
 
 
 def main():
