@@ -9,7 +9,7 @@ PRECEDENCE = {
 def inToPost(tokens):
     """
     push operands directly to new expression stack, and operators onto temporary stack
-    when encountering an operator of lower precedence, pop all operators of higher precedence
+    when encountering an operator of lower precedence, pop all operators of equal or higher precedence
     when encountering closed bracket, pop until its buddy is found
     finally empty the stack
     """
