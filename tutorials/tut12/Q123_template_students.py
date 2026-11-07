@@ -62,12 +62,25 @@ class Trie:
         #Put the words in the list: results
         #add your implementations
 
-        results = []
-
-        end_of_prefix = self.root
+        start = self.root
         for char in prefix:
-            while end_of_prefix.char != char:
-                end_of_prefix = end_of_prefix.next_sibling
+            start = self._find_child(start, char)
+            if not start: return []
+
+        results = []
+        stack = [(start, prefix)]
+        while stack:
+            curr, pref = stack.pop()
+
+            if curr.is_end_of_word: results.append(pref)
+
+            child = curr.first_child
+            while child:
+                stack.append((child, pref + child.char))
+                child = child.next_sibling
+
+        return results
+        
 
 
     def count_words(self, node): #question 1
@@ -76,22 +89,52 @@ class Trie:
 
         while stack:
             curr = stack.pop()
-            if curr.first_child: stack.append(curr.first_child)
-            if curr.next_sibling: stack.append(curr.next_sibling)
 
             if curr.is_end_of_word: count += 1
+
+            
+            child = curr.first_child
+            while child:
+                stack.append(child)
+                child = child.next_sibling
 
         return count
 
     def find_shortest_word_with_prefix(self, prefix):#question 3
-            # Step 1: Traverse to the end of the prefix
+        # Step 1: Traverse to the end of the prefix
 
-            # Step 2: Perform bfs from the ending node of the prefix
-            #The first complete word will be the shortest one
-            #add your implementations
-            # Put the words in the list: shortest_words
+        # Step 2: Perform bfs from the ending node of the prefix
+        #The first complete word will be the shortest one
+        #add your implementations
+        # Put the words in the list: shortest_words
 
-            shortest_words = []
+        shortest_words = []
+        start = self.root
+        for char in prefix:
+            start = self._find_child(start, char)
+            if not start:
+                return []
+
+        q = Queue()
+        d = None
+        q.enqueue((start, prefix))
+        while not q.is_empty():
+            curr, p = q.dequeue()
+
+            if curr.is_end_of_word:
+                shortest_words.append(p)
+                d = len(p)
+
+            if d is not None and len(p) > d:
+                break # stop adding
+
+            if d is None:
+                child = curr.first_child
+                while child:
+                    q.enqueue((child, p + child.char))
+                    child = child.next_sibling
+
+        
 
 
 # Create a new Trie instance
